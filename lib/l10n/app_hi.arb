@@ -1,0 +1,39 @@
+{
+  "@@locale": "hi",
+  "appTitle": "फ्लटर क्लीन",
+  "@appTitle": {
+    "description": "The application title"
+  },
+  "loading": "लोड हो रहा है...",
+  "@loading": {
+    "description": "Loading indicator text"
+  },
+  "welcome": "स्वागत है",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  "settings": "सेटिंग्स",
+  "@settings": {
+    "description": "Settings page title"
+  },
+  "language": "भाषा",
+  "@language": {
+    "description": "Language selection label"
+  },
+  "theme": "थीम",
+  "@theme": {
+    "description": "Theme selection label"
+  },
+  "light": "लाइट",
+  "@light": {
+    "description": "Light theme option"
+  },
+  "dark": "डार्क",
+  "@dark": {
+    "description": "Dark theme option"
+  },
+  "darker": "डार्कर",
+  "@darker": {
+    "description": "Darker theme option (AMOLED)"
+  }
+}

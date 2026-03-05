@@ -1,0 +1,40 @@
+{
+  "@@locale": "en",
+  "appTitle": "Flutter Clean",
+  "@appTitle": {
+    "description": "The application title"
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading indicator text"
+  },
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings page title"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language selection label"
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "Theme selection label"
+  },
+  "light": "Light",
+  "@light": {
+    "description": "Light theme option"
+  },
+  "dark": "Dark",
+  "@dark": {
+    "description": "Dark theme option"
+  },
+  "darker": "Darker",
+  "@darker": {
+    "description": "Darker theme option (AMOLED)"
+  },
+  "loginOrSignup": "Log in or sign up"
+}
