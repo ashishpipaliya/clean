@@ -1,5 +1,5 @@
 // scripts/generate_mapper.dart
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: avoid_print, deprecated_member_use
 
 import 'dart:io';
 import 'package:analyzer/dart/analysis/utilities.dart';

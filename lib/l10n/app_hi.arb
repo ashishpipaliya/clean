@@ -1,39 +1,39 @@
 {
   "@@locale": "hi",
   "appTitle": "फ्लटर क्लीन",
-  "@appTitle": {
-    "description": "The application title"
-  },
   "loading": "लोड हो रहा है...",
-  "@loading": {
-    "description": "Loading indicator text"
-  },
   "welcome": "स्वागत है",
-  "@welcome": {
-    "description": "Welcome message"
-  },
   "settings": "सेटिंग्स",
-  "@settings": {
-    "description": "Settings page title"
-  },
   "language": "भाषा",
-  "@language": {
-    "description": "Language selection label"
-  },
   "theme": "थीम",
-  "@theme": {
-    "description": "Theme selection label"
-  },
   "light": "लाइट",
-  "@light": {
-    "description": "Light theme option"
-  },
   "dark": "डार्क",
-  "@dark": {
-    "description": "Dark theme option"
-  },
   "darker": "डार्कर",
-  "@darker": {
-    "description": "Darker theme option (AMOLED)"
-  }
+  "loginOrSignup": "लॉग इन या साइन अप करें",
+  "login": "लॉग इन करें",
+  "pokemon": "पोकेमोन",
+  "clearCache": "कैश साफ़ करें",
+  "clearCacheTitle": "कैश साफ़ करें",
+  "clearCacheMessage": "क्या आप वाकई सभी कैश डेटा साफ़ करना चाहते हैं?",
+  "cancel": "रद्द करें",
+  "clear": "साफ़ करें",
+  "cacheCleared": "कैश सफलतापूर्वक साफ़ हो गया",
+  "failedToLoad": "पोकेमोन लोड करने में विफल",
+  "retry": "पुनः प्रयास करें",
+  "noPokemonFound": "कोई पोकेमोन नहीं मिला",
+  "pokemonDetails": "पोकेमोन विवरण",
+  "physicalAttributes": "शारीरिक विशेषताएं",
+  "height": "ऊंचाई",
+  "weight": "वजन",
+  "types": "प्रकार",
+  "abilities": "क्षमताएं",
+  "logout": "लॉगआउट",
+  "logoutConfirmation": "क्या आप वाकई लॉगआउट करना चाहते हैं?",
+  "appLanguage": "ऐप भाषा",
+  "chooseTheme": "थीम चुनें",
+  "chooseLanguage": "भाषा चुनें",
+  "english": "English",
+  "hindi": "हिन्दी (Hindi)",
+  "system": "सिस्टम",
+  "home": "होम"
 }

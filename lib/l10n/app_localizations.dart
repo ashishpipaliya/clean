@@ -98,55 +98,55 @@ abstract class AppLocalizations {
     Locale('hi'),
   ];
 
-  /// The application title
+  /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
   /// **'Flutter Clean'**
   String get appTitle;
 
-  /// Loading indicator text
+  /// No description provided for @loading.
   ///
   /// In en, this message translates to:
   /// **'Loading...'**
   String get loading;
 
-  /// Welcome message
+  /// No description provided for @welcome.
   ///
   /// In en, this message translates to:
   /// **'Welcome'**
   String get welcome;
 
-  /// Settings page title
+  /// No description provided for @settings.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
 
-  /// Language selection label
+  /// No description provided for @language.
   ///
   /// In en, this message translates to:
   /// **'Language'**
   String get language;
 
-  /// Theme selection label
+  /// No description provided for @theme.
   ///
   /// In en, this message translates to:
   /// **'Theme'**
   String get theme;
 
-  /// Light theme option
+  /// No description provided for @light.
   ///
   /// In en, this message translates to:
   /// **'Light'**
   String get light;
 
-  /// Dark theme option
+  /// No description provided for @dark.
   ///
   /// In en, this message translates to:
   /// **'Dark'**
   String get dark;
 
-  /// Darker theme option (AMOLED)
+  /// No description provided for @darker.
   ///
   /// In en, this message translates to:
   /// **'Darker'**
@@ -163,6 +163,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log in'**
   String get login;
+
+  /// No description provided for @pokemon.
+  ///
+  /// In en, this message translates to:
+  /// **'Pokémon'**
+  String get pokemon;
+
+  /// No description provided for @clearCache.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Cache'**
+  String get clearCache;
+
+  /// No description provided for @clearCacheTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Cache'**
+  String get clearCacheTitle;
+
+  /// No description provided for @clearCacheMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to clear all cached data?'**
+  String get clearCacheMessage;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// No description provided for @cacheCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache cleared successfully'**
+  String get cacheCleared;
+
+  /// No description provided for @failedToLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load Pokémon'**
+  String get failedToLoad;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @noPokemonFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No Pokémon found'**
+  String get noPokemonFound;
+
+  /// No description provided for @pokemonDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Pokémon Details'**
+  String get pokemonDetails;
+
+  /// No description provided for @physicalAttributes.
+  ///
+  /// In en, this message translates to:
+  /// **'Physical Attributes'**
+  String get physicalAttributes;
+
+  /// No description provided for @height.
+  ///
+  /// In en, this message translates to:
+  /// **'Height'**
+  String get height;
+
+  /// No description provided for @weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get weight;
+
+  /// No description provided for @types.
+  ///
+  /// In en, this message translates to:
+  /// **'Types'**
+  String get types;
+
+  /// No description provided for @abilities.
+  ///
+  /// In en, this message translates to:
+  /// **'Abilities'**
+  String get abilities;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @logoutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get logoutConfirmation;
+
+  /// No description provided for @appLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'App Language'**
+  String get appLanguage;
+
+  /// No description provided for @chooseTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Theme'**
+  String get chooseTheme;
+
+  /// No description provided for @chooseLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Language'**
+  String get chooseLanguage;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @hindi.
+  ///
+  /// In en, this message translates to:
+  /// **'हिन्दी (Hindi)'**
+  String get hindi;
+
+  /// No description provided for @system.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get system;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
 }
 
 class _AppLocalizationsDelegate

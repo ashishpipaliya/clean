@@ -40,4 +40,80 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login => 'Log in';
+
+  @override
+  String get pokemon => 'Pokémon';
+
+  @override
+  String get clearCache => 'Clear Cache';
+
+  @override
+  String get clearCacheTitle => 'Clear Cache';
+
+  @override
+  String get clearCacheMessage =>
+      'Are you sure you want to clear all cached data?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get cacheCleared => 'Cache cleared successfully';
+
+  @override
+  String get failedToLoad => 'Failed to load Pokémon';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get noPokemonFound => 'No Pokémon found';
+
+  @override
+  String get pokemonDetails => 'Pokémon Details';
+
+  @override
+  String get physicalAttributes => 'Physical Attributes';
+
+  @override
+  String get height => 'Height';
+
+  @override
+  String get weight => 'Weight';
+
+  @override
+  String get types => 'Types';
+
+  @override
+  String get abilities => 'Abilities';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get logoutConfirmation => 'Are you sure you want to logout?';
+
+  @override
+  String get appLanguage => 'App Language';
+
+  @override
+  String get chooseTheme => 'Choose Theme';
+
+  @override
+  String get chooseLanguage => 'Choose Language';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get hindi => 'हिन्दी (Hindi)';
+
+  @override
+  String get system => 'System';
+
+  @override
+  String get home => 'Home';
 }

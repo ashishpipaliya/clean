@@ -16,7 +16,9 @@ part 'auth_bloc.freezed.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUsecase loginUsecase;
 
-  AuthBloc({required this.loginUsecase}) : super(const AuthState.initial()) {
+  AuthBloc({
+    required this.loginUsecase,
+  }) : super(const AuthState.initial()) {
     on<_Login>(_onLogin);
     on<_Validate>(_onValidate);
   }

@@ -20,7 +20,7 @@ class UIConstants {
   static const double spacingXXL = 48.0;
 
   // Screen Padding
-  static const double screenPaddingHorizontal = 24.0;
+  static const double screenPaddingHorizontal = 16.0;
   static const double screenPaddingVertical = 16.0;
   static const double screenPadding = 16.0;
 

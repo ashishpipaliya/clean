@@ -1,4 +1,5 @@
 import 'package:clean/core/storage/secure_storage_service.dart';
+import 'package:clean/features/settings/domain/usecase/logout_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -11,45 +12,44 @@ part 'settings_bloc.freezed.dart';
 @singleton
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final SecureStorageService _secureStorage;
+  final LogoutUsecase _logoutUsecase;
 
   static const String _themeModeKey = 'theme_mode';
   static const String _localeKey = 'locale';
 
-  SettingsBloc(this._secureStorage) : super(const SettingsState()) {
+  SettingsBloc(this._secureStorage, this._logoutUsecase) : super(const SettingsState()) {
     on<_LoadSettings>(_onLoadSettings);
     on<_ChangeTheme>(_onChangeTheme);
     on<_ChangeLocale>(_onChangeLocale);
+    on<_Logout>(_onLogout);
 
     // Load settings on initialization
     add(const SettingsEvent.loadSettings());
   }
 
-  Future<void> _onLoadSettings(
-    _LoadSettings event,
-    Emitter<SettingsState> emit,
-  ) async {
+  Future<void> _onLoadSettings(_LoadSettings event, Emitter<SettingsState> emit) async {
     final themeModeIndex = await _secureStorage.read(_themeModeKey);
     final localeCode = await _secureStorage.read(_localeKey);
 
-    emit(state.copyWith(
-      themeMode: ThemeMode.values[int.tryParse(themeModeIndex ?? '0') ?? 0],
-      locale: Locale(localeCode ?? 'en'),
-    ));
+    emit(state.copyWith(themeMode: ThemeMode.values[int.tryParse(themeModeIndex ?? '0') ?? 0], locale: Locale(localeCode ?? 'en')));
   }
 
-  Future<void> _onChangeTheme(
-    _ChangeTheme event,
-    Emitter<SettingsState> emit,
-  ) async {
+  Future<void> _onChangeTheme(_ChangeTheme event, Emitter<SettingsState> emit) async {
     await _secureStorage.write(_themeModeKey, event.themeMode.index.toString());
     emit(state.copyWith(themeMode: event.themeMode));
   }
 
-  Future<void> _onChangeLocale(
-    _ChangeLocale event,
-    Emitter<SettingsState> emit,
-  ) async {
+  Future<void> _onChangeLocale(_ChangeLocale event, Emitter<SettingsState> emit) async {
     await _secureStorage.write(_localeKey, event.locale.languageCode);
     emit(state.copyWith(locale: event.locale));
+  }
+
+  Future<void> _onLogout(_Logout event, Emitter<SettingsState> emit) async {
+    final result = await _logoutUsecase();
+    
+    result.fold(
+      (failure) => emit(state.copyWith(loggedOut: false)),
+      (_) => emit(state.copyWith(loggedOut: true)),
+    );
   }
 }

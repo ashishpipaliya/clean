@@ -55,13 +55,14 @@ extension SettingsEventPatterns on SettingsEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _ChangeTheme value)?  changeTheme,TResult Function( _ChangeLocale value)?  changeLocale,TResult Function( _LoadSettings value)?  loadSettings,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _ChangeTheme value)?  changeTheme,TResult Function( _ChangeLocale value)?  changeLocale,TResult Function( _LoadSettings value)?  loadSettings,TResult Function( _Logout value)?  logout,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _ChangeTheme() when changeTheme != null:
 return changeTheme(_that);case _ChangeLocale() when changeLocale != null:
 return changeLocale(_that);case _LoadSettings() when loadSettings != null:
-return loadSettings(_that);case _:
+return loadSettings(_that);case _Logout() when logout != null:
+return logout(_that);case _:
   return orElse();
 
 }
@@ -79,13 +80,14 @@ return loadSettings(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _ChangeTheme value)  changeTheme,required TResult Function( _ChangeLocale value)  changeLocale,required TResult Function( _LoadSettings value)  loadSettings,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _ChangeTheme value)  changeTheme,required TResult Function( _ChangeLocale value)  changeLocale,required TResult Function( _LoadSettings value)  loadSettings,required TResult Function( _Logout value)  logout,}){
 final _that = this;
 switch (_that) {
 case _ChangeTheme():
 return changeTheme(_that);case _ChangeLocale():
 return changeLocale(_that);case _LoadSettings():
-return loadSettings(_that);}
+return loadSettings(_that);case _Logout():
+return logout(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -99,13 +101,14 @@ return loadSettings(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _ChangeTheme value)?  changeTheme,TResult? Function( _ChangeLocale value)?  changeLocale,TResult? Function( _LoadSettings value)?  loadSettings,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _ChangeTheme value)?  changeTheme,TResult? Function( _ChangeLocale value)?  changeLocale,TResult? Function( _LoadSettings value)?  loadSettings,TResult? Function( _Logout value)?  logout,}){
 final _that = this;
 switch (_that) {
 case _ChangeTheme() when changeTheme != null:
 return changeTheme(_that);case _ChangeLocale() when changeLocale != null:
 return changeLocale(_that);case _LoadSettings() when loadSettings != null:
-return loadSettings(_that);case _:
+return loadSettings(_that);case _Logout() when logout != null:
+return logout(_that);case _:
   return null;
 
 }
@@ -122,12 +125,13 @@ return loadSettings(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( ThemeMode themeMode)?  changeTheme,TResult Function( Locale locale)?  changeLocale,TResult Function()?  loadSettings,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( ThemeMode themeMode)?  changeTheme,TResult Function( Locale locale)?  changeLocale,TResult Function()?  loadSettings,TResult Function()?  logout,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChangeTheme() when changeTheme != null:
 return changeTheme(_that.themeMode);case _ChangeLocale() when changeLocale != null:
 return changeLocale(_that.locale);case _LoadSettings() when loadSettings != null:
-return loadSettings();case _:
+return loadSettings();case _Logout() when logout != null:
+return logout();case _:
   return orElse();
 
 }
@@ -145,12 +149,13 @@ return loadSettings();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( ThemeMode themeMode)  changeTheme,required TResult Function( Locale locale)  changeLocale,required TResult Function()  loadSettings,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( ThemeMode themeMode)  changeTheme,required TResult Function( Locale locale)  changeLocale,required TResult Function()  loadSettings,required TResult Function()  logout,}) {final _that = this;
 switch (_that) {
 case _ChangeTheme():
 return changeTheme(_that.themeMode);case _ChangeLocale():
 return changeLocale(_that.locale);case _LoadSettings():
-return loadSettings();}
+return loadSettings();case _Logout():
+return logout();}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -164,12 +169,13 @@ return loadSettings();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( ThemeMode themeMode)?  changeTheme,TResult? Function( Locale locale)?  changeLocale,TResult? Function()?  loadSettings,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( ThemeMode themeMode)?  changeTheme,TResult? Function( Locale locale)?  changeLocale,TResult? Function()?  loadSettings,TResult? Function()?  logout,}) {final _that = this;
 switch (_that) {
 case _ChangeTheme() when changeTheme != null:
 return changeTheme(_that.themeMode);case _ChangeLocale() when changeLocale != null:
 return changeLocale(_that.locale);case _LoadSettings() when loadSettings != null:
-return loadSettings();case _:
+return loadSettings();case _Logout() when logout != null:
+return logout();case _:
   return null;
 
 }
@@ -342,9 +348,41 @@ String toString() {
 
 
 /// @nodoc
+
+
+class _Logout implements SettingsEvent {
+  const _Logout();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Logout);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SettingsEvent.logout()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
 mixin _$SettingsState {
 
- ThemeMode get themeMode; Locale get locale;
+ ThemeMode get themeMode; Locale get locale; bool get loggedOut;
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -355,16 +393,16 @@ $SettingsStateCopyWith<SettingsState> get copyWith => _$SettingsStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.locale, locale) || other.locale == locale));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.loggedOut, loggedOut) || other.loggedOut == loggedOut));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,locale);
+int get hashCode => Object.hash(runtimeType,themeMode,locale,loggedOut);
 
 @override
 String toString() {
-  return 'SettingsState(themeMode: $themeMode, locale: $locale)';
+  return 'SettingsState(themeMode: $themeMode, locale: $locale, loggedOut: $loggedOut)';
 }
 
 
@@ -375,7 +413,7 @@ abstract mixin class $SettingsStateCopyWith<$Res>  {
   factory $SettingsStateCopyWith(SettingsState value, $Res Function(SettingsState) _then) = _$SettingsStateCopyWithImpl;
 @useResult
 $Res call({
- ThemeMode themeMode, Locale locale
+ ThemeMode themeMode, Locale locale, bool loggedOut
 });
 
 
@@ -392,11 +430,12 @@ class _$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? locale = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? locale = null,Object? loggedOut = null,}) {
   return _then(_self.copyWith(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemeMode,locale: null == locale ? _self.locale : locale // ignore: cast_nullable_to_non_nullable
-as Locale,
+as Locale,loggedOut: null == loggedOut ? _self.loggedOut : loggedOut // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -478,10 +517,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ThemeMode themeMode,  Locale locale)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ThemeMode themeMode,  Locale locale,  bool loggedOut)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.themeMode,_that.locale);case _:
+return $default(_that.themeMode,_that.locale,_that.loggedOut);case _:
   return orElse();
 
 }
@@ -499,10 +538,10 @@ return $default(_that.themeMode,_that.locale);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ThemeMode themeMode,  Locale locale)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ThemeMode themeMode,  Locale locale,  bool loggedOut)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState():
-return $default(_that.themeMode,_that.locale);}
+return $default(_that.themeMode,_that.locale,_that.loggedOut);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -516,10 +555,10 @@ return $default(_that.themeMode,_that.locale);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ThemeMode themeMode,  Locale locale)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ThemeMode themeMode,  Locale locale,  bool loggedOut)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
-return $default(_that.themeMode,_that.locale);case _:
+return $default(_that.themeMode,_that.locale,_that.loggedOut);case _:
   return null;
 
 }
@@ -531,11 +570,12 @@ return $default(_that.themeMode,_that.locale);case _:
 
 
 class _SettingsState implements SettingsState {
-  const _SettingsState({this.themeMode = ThemeMode.light, this.locale = const Locale('en')});
+  const _SettingsState({this.themeMode = ThemeMode.light, this.locale = const Locale('en'), this.loggedOut = false});
   
 
 @override@JsonKey() final  ThemeMode themeMode;
 @override@JsonKey() final  Locale locale;
+@override@JsonKey() final  bool loggedOut;
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
@@ -547,16 +587,16 @@ _$SettingsStateCopyWith<_SettingsState> get copyWith => __$SettingsStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.locale, locale) || other.locale == locale));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.loggedOut, loggedOut) || other.loggedOut == loggedOut));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,locale);
+int get hashCode => Object.hash(runtimeType,themeMode,locale,loggedOut);
 
 @override
 String toString() {
-  return 'SettingsState(themeMode: $themeMode, locale: $locale)';
+  return 'SettingsState(themeMode: $themeMode, locale: $locale, loggedOut: $loggedOut)';
 }
 
 
@@ -567,7 +607,7 @@ abstract mixin class _$SettingsStateCopyWith<$Res> implements $SettingsStateCopy
   factory _$SettingsStateCopyWith(_SettingsState value, $Res Function(_SettingsState) _then) = __$SettingsStateCopyWithImpl;
 @override @useResult
 $Res call({
- ThemeMode themeMode, Locale locale
+ ThemeMode themeMode, Locale locale, bool loggedOut
 });
 
 
@@ -584,11 +624,12 @@ class __$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? locale = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? locale = null,Object? loggedOut = null,}) {
   return _then(_SettingsState(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemeMode,locale: null == locale ? _self.locale : locale // ignore: cast_nullable_to_non_nullable
-as Locale,
+as Locale,loggedOut: null == loggedOut ? _self.loggedOut : loggedOut // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

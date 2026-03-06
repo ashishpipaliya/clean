@@ -12,6 +12,7 @@
 import 'package:clean/core/navigation/navigation_service.dart' as _i339;
 import 'package:clean/core/network/connectivity_service.dart' as _i431;
 import 'package:clean/core/network/dio_client.dart' as _i581;
+import 'package:clean/core/security/encryption_service.dart' as _i601;
 import 'package:clean/core/storage/hive_service.dart' as _i156;
 import 'package:clean/core/storage/secure_storage_service.dart' as _i107;
 import 'package:clean/features/auth/data/datasource/auth_remote_data_source.dart'
@@ -22,6 +23,23 @@ import 'package:clean/features/auth/domain/repository/auth_repository.dart'
     as _i558;
 import 'package:clean/features/auth/domain/usecase/login_usecase.dart' as _i854;
 import 'package:clean/features/auth/presentation/bloc/auth_bloc.dart' as _i1055;
+import 'package:clean/features/home/data/datasource/home_local_data_source.dart'
+    as _i947;
+import 'package:clean/features/home/data/datasource/home_remote_data_source.dart'
+    as _i1055;
+import 'package:clean/features/home/data/repository/home_repository_impl.dart'
+    as _i837;
+import 'package:clean/features/home/domain/repository/home_repository.dart'
+    as _i236;
+import 'package:clean/features/home/domain/usecase/get_home_detail_usecase.dart'
+    as _i805;
+import 'package:clean/features/home/domain/usecase/get_home_list_usecase.dart'
+    as _i891;
+import 'package:clean/features/home/presentation/bloc/home_bloc.dart' as _i273;
+import 'package:clean/features/home/presentation/bloc/pokemon_detail_bloc.dart'
+    as _i601;
+import 'package:clean/features/settings/domain/usecase/logout_usecase.dart'
+    as _i79;
 import 'package:clean/features/settings/presentation/bloc/settings_bloc.dart'
     as _i44;
 import 'package:dio/dio.dart' as _i361;
@@ -56,11 +74,24 @@ extension GetItInjectableX on _i174.GetIt {
       () => connectivityModule.internetConnection,
     );
     gh.lazySingleton<_i361.Dio>(() => networkModule.dio);
+    gh.lazySingleton<_i601.EncryptionService>(() => _i601.EncryptionService());
     gh.lazySingleton<_i558.FlutterSecureStorage>(
       () => secureStorageModule.secureStorage,
     );
+    gh.factory<_i947.HomeLocalDataSource>(
+      () => _i947.HomeLocalDataSource(gh<_i601.EncryptionService>()),
+    );
     gh.factory<_i116.AuthRemoteDataSource>(
       () => _i116.AuthRemoteDataSource(gh<_i361.Dio>()),
+    );
+    gh.factory<_i1055.HomeRemoteDataSource>(
+      () => _i1055.HomeRemoteDataSource(gh<_i361.Dio>()),
+    );
+    gh.factory<_i236.HomeRepository>(
+      () => _i837.HomeRepositoryImpl(
+        gh<_i1055.HomeRemoteDataSource>(),
+        gh<_i947.HomeLocalDataSource>(),
+      ),
     );
     gh.lazySingleton<_i339.NavigationService>(
       () =>
@@ -84,14 +115,32 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i107.SecureStorageService>(),
       ),
     );
+    gh.factory<_i805.GetHomeDetailUsecase>(
+      () => _i805.GetHomeDetailUsecase(gh<_i236.HomeRepository>()),
+    );
+    gh.factory<_i891.GetHomeListUsecase>(
+      () => _i891.GetHomeListUsecase(gh<_i236.HomeRepository>()),
+    );
+    gh.factory<_i601.PokemonDetailBloc>(
+      () => _i601.PokemonDetailBloc(gh<_i805.GetHomeDetailUsecase>()),
+    );
     gh.factory<_i854.LoginUsecase>(
       () => _i854.LoginUsecase(gh<_i558.AuthRepository>()),
     );
-    gh.singleton<_i44.SettingsBloc>(
-      () => _i44.SettingsBloc(gh<_i107.SecureStorageService>()),
+    gh.factory<_i79.LogoutUsecase>(
+      () => _i79.LogoutUsecase(gh<_i558.AuthRepository>()),
+    );
+    gh.factory<_i273.HomeBloc>(
+      () => _i273.HomeBloc(gh<_i891.GetHomeListUsecase>()),
     );
     gh.factory<_i1055.AuthBloc>(
       () => _i1055.AuthBloc(loginUsecase: gh<_i854.LoginUsecase>()),
+    );
+    gh.singleton<_i44.SettingsBloc>(
+      () => _i44.SettingsBloc(
+        gh<_i107.SecureStorageService>(),
+        gh<_i79.LogoutUsecase>(),
+      ),
     );
     return this;
   }

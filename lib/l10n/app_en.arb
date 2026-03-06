@@ -1,41 +1,39 @@
 {
   "@@locale": "en",
   "appTitle": "Flutter Clean",
-  "@appTitle": {
-    "description": "The application title"
-  },
   "loading": "Loading...",
-  "@loading": {
-    "description": "Loading indicator text"
-  },
   "welcome": "Welcome",
-  "@welcome": {
-    "description": "Welcome message"
-  },
   "settings": "Settings",
-  "@settings": {
-    "description": "Settings page title"
-  },
   "language": "Language",
-  "@language": {
-    "description": "Language selection label"
-  },
   "theme": "Theme",
-  "@theme": {
-    "description": "Theme selection label"
-  },
   "light": "Light",
-  "@light": {
-    "description": "Light theme option"
-  },
   "dark": "Dark",
-  "@dark": {
-    "description": "Dark theme option"
-  },
   "darker": "Darker",
-  "@darker": {
-    "description": "Darker theme option (AMOLED)"
-  },
   "loginOrSignup": "Log in or sign up",
-  "login": "Log in"
+  "login": "Log in",
+  "pokemon": "Pokémon",
+  "clearCache": "Clear Cache",
+  "clearCacheTitle": "Clear Cache",
+  "clearCacheMessage": "Are you sure you want to clear all cached data?",
+  "cancel": "Cancel",
+  "clear": "Clear",
+  "cacheCleared": "Cache cleared successfully",
+  "failedToLoad": "Failed to load Pokémon",
+  "retry": "Retry",
+  "noPokemonFound": "No Pokémon found",
+  "pokemonDetails": "Pokémon Details",
+  "physicalAttributes": "Physical Attributes",
+  "height": "Height",
+  "weight": "Weight",
+  "types": "Types",
+  "abilities": "Abilities",
+  "logout": "Logout",
+  "logoutConfirmation": "Are you sure you want to logout?",
+  "appLanguage": "App Language",
+  "chooseTheme": "Choose Theme",
+  "chooseLanguage": "Choose Language",
+  "english": "English",
+  "hindi": "हिन्दी (Hindi)",
+  "system": "System",
+  "home": "Home"
 }

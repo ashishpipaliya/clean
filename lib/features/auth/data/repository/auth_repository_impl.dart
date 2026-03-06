@@ -63,8 +63,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
   /// Clear stored tokens (logout)
   @override
-  Future<void> clearTokens() async {
-    await secureStorageService.delete(_accessTokenKey);
-    await secureStorageService.delete(_refreshTokenKey);
+  Future<Either<Failure, Unit>> clearTokens() async {
+    try {
+      await secureStorageService.delete(_accessTokenKey);
+      await secureStorageService.delete(_refreshTokenKey);
+      return right(unit);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

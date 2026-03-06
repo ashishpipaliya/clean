@@ -49,6 +49,11 @@ dependencies:
   # Animations
   flutter_animate: ^4.5.0
   retrofit_generator: ^10.2.3
+  encrypt: ^5.0.3
+  crypto: ^3.0.7
+  
+  # Pagination
+  infinite_scroll_pagination: ^4.1.0
 
 dev_dependencies:
   flutter_test:

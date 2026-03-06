@@ -3,13 +3,13 @@
 A new Flutter project.
 
 [Done] Login
-listdata - pokedex api
-Details page - Pokedex api
+[Done] listdata - pokedex api
+[Done] Details page - Pokedex api
 [Done] Session Handling Secure store
-Encryption
-DB handling Hive
+[Done] Encryption
+[Done] DB handling Hive
 [Done] Theme Handling
 [Done] Multi-Language
-Online-offline handling
+[Done] Online-offline handling
 [Done] clean architecture
 state-management riverpod hooks
