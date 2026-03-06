@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/ui_constants.dart';
 
-enum AppButtonStyle {
-  filled,
-  outlined,
-  text,
-}
+enum AppButtonStyle { filled, outlined, text }
 
 /// Standard button with consistent styling
 class AppButton extends StatelessWidget {
@@ -132,7 +128,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final effectiveHeight = dense ? 40.0 : height;
     final isButtonDisabled = isDisabled || isLoading || onPressed == null;
-    
+
     final content = isLoading
         ? SizedBox(
             height: 20,
@@ -140,20 +136,13 @@ class AppButton extends StatelessWidget {
             child: CircularProgressIndicator(
               strokeWidth: 2,
               color: buttonStyle == AppButtonStyle.filled
-                  ? (foregroundColor ?? Colors.white)
+                  ? (foregroundColor ?? Theme.of(context).colorScheme.primary)
                   : (foregroundColor ?? Theme.of(context).colorScheme.primary),
             ),
           )
         : icon != null
-            ? Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(icon, size: 20),
-                  const SizedBox(width: 8),
-                  Text(label),
-                ],
-              )
-            : Text(label);
+        ? Row(mainAxisSize: MainAxisSize.min, children: [Icon(icon, size: 20), const SizedBox(width: 8), Text(label)])
+        : Text(label);
 
     final hasCustomColors = backgroundColor != null || foregroundColor != null;
     final hasCustomStyle = hasCustomColors || dense || borderRadius != null;
@@ -162,14 +151,12 @@ class AppButton extends StatelessWidget {
     switch (buttonStyle) {
       case AppButtonStyle.filled:
         ButtonStyle? customStyle;
-        
+
         if (hasCustomStyle) {
           customStyle = FilledButton.styleFrom(
             backgroundColor: backgroundColor,
             foregroundColor: foregroundColor,
-            padding: dense
-                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
-                : null,
+            padding: dense ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8) : null,
             shape: RoundedRectangleBorder(borderRadius: effectiveBorderRadius),
           );
         }
@@ -177,22 +164,16 @@ class AppButton extends StatelessWidget {
         return SizedBox(
           width: width,
           height: effectiveHeight,
-          child: FilledButton(
-            onPressed: isButtonDisabled ? null : onPressed,
-            style: customStyle,
-            child: content,
-          ),
+          child: FilledButton(onPressed: isButtonDisabled ? null : onPressed, style: customStyle, child: content),
         );
 
       case AppButtonStyle.outlined:
         ButtonStyle? customStyle;
-        
+
         if (hasCustomStyle) {
           customStyle = OutlinedButton.styleFrom(
             foregroundColor: foregroundColor,
-            padding: dense
-                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
-                : null,
+            padding: dense ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8) : null,
             shape: RoundedRectangleBorder(borderRadius: effectiveBorderRadius),
           );
         }
@@ -200,22 +181,16 @@ class AppButton extends StatelessWidget {
         return SizedBox(
           width: width,
           height: effectiveHeight,
-          child: OutlinedButton(
-            onPressed: isButtonDisabled ? null : onPressed,
-            style: customStyle,
-            child: content,
-          ),
+          child: OutlinedButton(onPressed: isButtonDisabled ? null : onPressed, style: customStyle, child: content),
         );
 
       case AppButtonStyle.text:
         ButtonStyle? customStyle;
-        
+
         if (hasCustomStyle) {
           customStyle = TextButton.styleFrom(
             foregroundColor: foregroundColor,
-            padding: dense
-                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
-                : null,
+            padding: dense ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8) : null,
             shape: RoundedRectangleBorder(borderRadius: effectiveBorderRadius),
           );
         }
@@ -223,11 +198,7 @@ class AppButton extends StatelessWidget {
         return SizedBox(
           width: width,
           height: effectiveHeight,
-          child: TextButton(
-            onPressed: isButtonDisabled ? null : onPressed,
-            style: customStyle,
-            child: content,
-          ),
+          child: TextButton(onPressed: isButtonDisabled ? null : onPressed, style: customStyle, child: content),
         );
     }
   }
@@ -241,14 +212,7 @@ class AppIconButton extends StatelessWidget {
   final Color? color;
   final double size;
 
-  const AppIconButton({
-    super.key,
-    required this.icon,
-    this.onPressed,
-    this.tooltip,
-    this.color,
-    this.size = 24,
-  });
+  const AppIconButton({super.key, required this.icon, this.onPressed, this.tooltip, this.color, this.size = 24});
 
   @override
   Widget build(BuildContext context) {
@@ -259,10 +223,7 @@ class AppIconButton extends StatelessWidget {
     );
 
     if (tooltip != null) {
-      return Tooltip(
-        message: tooltip!,
-        child: button,
-      );
+      return Tooltip(message: tooltip!, child: button);
     }
 
     return button;
@@ -276,27 +237,14 @@ class AppFab extends StatelessWidget {
   final String? label;
   final bool isExtended;
 
-  const AppFab({
-    super.key,
-    required this.icon,
-    this.onPressed,
-    this.label,
-    this.isExtended = false,
-  });
+  const AppFab({super.key, required this.icon, this.onPressed, this.label, this.isExtended = false});
 
   @override
   Widget build(BuildContext context) {
     if (isExtended && label != null) {
-      return FloatingActionButton.extended(
-        onPressed: onPressed,
-        icon: Icon(icon),
-        label: Text(label!),
-      );
+      return FloatingActionButton.extended(onPressed: onPressed, icon: Icon(icon), label: Text(label!));
     }
 
-    return FloatingActionButton(
-      onPressed: onPressed,
-      child: Icon(icon),
-    );
+    return FloatingActionButton(onPressed: onPressed, child: Icon(icon));
   }
 }

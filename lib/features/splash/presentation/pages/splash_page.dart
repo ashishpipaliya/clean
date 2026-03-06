@@ -1,32 +1,11 @@
-import 'package:clean/features/auth/presentation/view/login_page.dart';
 import 'package:clean/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:go_router/go_router.dart';
 
-class SplashPage extends StatefulWidget {
+class SplashPage extends StatelessWidget {
   static const routeName = '/';
 
   const SplashPage({super.key});
-
-  @override
-  State<SplashPage> createState() => _SplashPageState();
-}
-
-class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-    _initialize();
-  }
-
-  Future<void> _initialize() async {
-    await Future.delayed(const Duration(milliseconds: 2500));
-
-    if (!mounted) return;
-
-    context.goNamed(LoginPage.routeName);
-  }
 
   @override
   Widget build(BuildContext context) {

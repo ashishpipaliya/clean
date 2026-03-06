@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AuthEvent {
 
- String get email; String get password;
+ String? get username; String? get password;
 /// Create a copy of AuthEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AuthEventCopyWith<AuthEvent> get copyWith => _$AuthEventCopyWithImpl<AuthEvent>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthEvent&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthEvent&&(identical(other.username, username) || other.username == username)&&(identical(other.password, password) || other.password == password));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,email,password);
+int get hashCode => Object.hash(runtimeType,username,password);
 
 @override
 String toString() {
-  return 'AuthEvent(email: $email, password: $password)';
+  return 'AuthEvent(username: $username, password: $password)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AuthEventCopyWith<$Res>  {
   factory $AuthEventCopyWith(AuthEvent value, $Res Function(AuthEvent) _then) = _$AuthEventCopyWithImpl;
 @useResult
 $Res call({
- String email, String password
+ String username, String password
 });
 
 
@@ -62,10 +62,10 @@ class _$AuthEventCopyWithImpl<$Res>
 
 /// Create a copy of AuthEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? password = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? username = null,Object? password = null,}) {
   return _then(_self.copyWith(
-email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
+username: null == username ? _self.username! : username // ignore: cast_nullable_to_non_nullable
+as String,password: null == password ? _self.password! : password // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -87,11 +87,12 @@ extension AuthEventPatterns on AuthEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Login value)?  login,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Login value)?  login,TResult Function( _Validate value)?  validate,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Login() when login != null:
-return login(_that);case _:
+return login(_that);case _Validate() when validate != null:
+return validate(_that);case _:
   return orElse();
 
 }
@@ -109,11 +110,12 @@ return login(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Login value)  login,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Login value)  login,required TResult Function( _Validate value)  validate,}){
 final _that = this;
 switch (_that) {
 case _Login():
-return login(_that);}
+return login(_that);case _Validate():
+return validate(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -127,11 +129,12 @@ return login(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Login value)?  login,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Login value)?  login,TResult? Function( _Validate value)?  validate,}){
 final _that = this;
 switch (_that) {
 case _Login() when login != null:
-return login(_that);case _:
+return login(_that);case _Validate() when validate != null:
+return validate(_that);case _:
   return null;
 
 }
@@ -148,10 +151,11 @@ return login(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String email,  String password)?  login,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String username,  String password)?  login,TResult Function( String? username,  String? password)?  validate,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Login() when login != null:
-return login(_that.email,_that.password);case _:
+return login(_that.username,_that.password);case _Validate() when validate != null:
+return validate(_that.username,_that.password);case _:
   return orElse();
 
 }
@@ -169,10 +173,11 @@ return login(_that.email,_that.password);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String email,  String password)  login,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String username,  String password)  login,required TResult Function( String? username,  String? password)  validate,}) {final _that = this;
 switch (_that) {
 case _Login():
-return login(_that.email,_that.password);}
+return login(_that.username,_that.password);case _Validate():
+return validate(_that.username,_that.password);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -186,10 +191,11 @@ return login(_that.email,_that.password);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String email,  String password)?  login,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String username,  String password)?  login,TResult? Function( String? username,  String? password)?  validate,}) {final _that = this;
 switch (_that) {
 case _Login() when login != null:
-return login(_that.email,_that.password);case _:
+return login(_that.username,_that.password);case _Validate() when validate != null:
+return validate(_that.username,_that.password);case _:
   return null;
 
 }
@@ -201,10 +207,10 @@ return login(_that.email,_that.password);case _:
 
 
 class _Login implements AuthEvent {
-  const _Login({required this.email, required this.password});
+  const _Login({required this.username, required this.password});
   
 
-@override final  String email;
+@override final  String username;
 @override final  String password;
 
 /// Create a copy of AuthEvent
@@ -217,16 +223,16 @@ _$LoginCopyWith<_Login> get copyWith => __$LoginCopyWithImpl<_Login>(this, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Login&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Login&&(identical(other.username, username) || other.username == username)&&(identical(other.password, password) || other.password == password));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,email,password);
+int get hashCode => Object.hash(runtimeType,username,password);
 
 @override
 String toString() {
-  return 'AuthEvent.login(email: $email, password: $password)';
+  return 'AuthEvent.login(username: $username, password: $password)';
 }
 
 
@@ -237,7 +243,7 @@ abstract mixin class _$LoginCopyWith<$Res> implements $AuthEventCopyWith<$Res> {
   factory _$LoginCopyWith(_Login value, $Res Function(_Login) _then) = __$LoginCopyWithImpl;
 @override @useResult
 $Res call({
- String email, String password
+ String username, String password
 });
 
 
@@ -254,11 +260,79 @@ class __$LoginCopyWithImpl<$Res>
 
 /// Create a copy of AuthEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? username = null,Object? password = null,}) {
   return _then(_Login(
-email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _Validate implements AuthEvent {
+  const _Validate({this.username, this.password});
+  
+
+@override final  String? username;
+@override final  String? password;
+
+/// Create a copy of AuthEvent
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ValidateCopyWith<_Validate> get copyWith => __$ValidateCopyWithImpl<_Validate>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Validate&&(identical(other.username, username) || other.username == username)&&(identical(other.password, password) || other.password == password));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,username,password);
+
+@override
+String toString() {
+  return 'AuthEvent.validate(username: $username, password: $password)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ValidateCopyWith<$Res> implements $AuthEventCopyWith<$Res> {
+  factory _$ValidateCopyWith(_Validate value, $Res Function(_Validate) _then) = __$ValidateCopyWithImpl;
+@override @useResult
+$Res call({
+ String? username, String? password
+});
+
+
+
+
+}
+/// @nodoc
+class __$ValidateCopyWithImpl<$Res>
+    implements _$ValidateCopyWith<$Res> {
+  __$ValidateCopyWithImpl(this._self, this._then);
+
+  final _Validate _self;
+  final $Res Function(_Validate) _then;
+
+/// Create a copy of AuthEvent
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? username = freezed,Object? password = freezed,}) {
+  return _then(_Validate(
+username: freezed == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
+as String?,password: freezed == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -309,14 +383,15 @@ extension AuthStatePatterns on AuthState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Initial value)?  initial,TResult Function( Loading value)?  loading,TResult Function( Success value)?  success,TResult Function( Failure value)?  failure,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Initial value)?  initial,TResult Function( Loading value)?  loading,TResult Function( Success value)?  success,TResult Function( Failure value)?  failure,TResult Function( Validate value)?  validate,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case Initial() when initial != null:
 return initial(_that);case Loading() when loading != null:
 return loading(_that);case Success() when success != null:
 return success(_that);case Failure() when failure != null:
-return failure(_that);case _:
+return failure(_that);case Validate() when validate != null:
+return validate(_that);case _:
   return orElse();
 
 }
@@ -334,14 +409,15 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Initial value)  initial,required TResult Function( Loading value)  loading,required TResult Function( Success value)  success,required TResult Function( Failure value)  failure,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Initial value)  initial,required TResult Function( Loading value)  loading,required TResult Function( Success value)  success,required TResult Function( Failure value)  failure,required TResult Function( Validate value)  validate,}){
 final _that = this;
 switch (_that) {
 case Initial():
 return initial(_that);case Loading():
 return loading(_that);case Success():
 return success(_that);case Failure():
-return failure(_that);}
+return failure(_that);case Validate():
+return validate(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -355,14 +431,15 @@ return failure(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Initial value)?  initial,TResult? Function( Loading value)?  loading,TResult? Function( Success value)?  success,TResult? Function( Failure value)?  failure,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Initial value)?  initial,TResult? Function( Loading value)?  loading,TResult? Function( Success value)?  success,TResult? Function( Failure value)?  failure,TResult? Function( Validate value)?  validate,}){
 final _that = this;
 switch (_that) {
 case Initial() when initial != null:
 return initial(_that);case Loading() when loading != null:
 return loading(_that);case Success() when success != null:
 return success(_that);case Failure() when failure != null:
-return failure(_that);case _:
+return failure(_that);case Validate() when validate != null:
+return validate(_that);case _:
   return null;
 
 }
@@ -379,13 +456,14 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  success,TResult Function()?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( LoginResponseEntity loginResponse)?  success,TResult Function( String message)?  failure,TResult Function( bool isFormValid)?  validate,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Initial() when initial != null:
 return initial();case Loading() when loading != null:
 return loading();case Success() when success != null:
-return success();case Failure() when failure != null:
-return failure();case _:
+return success(_that.loginResponse);case Failure() when failure != null:
+return failure(_that.message);case Validate() when validate != null:
+return validate(_that.isFormValid);case _:
   return orElse();
 
 }
@@ -403,13 +481,14 @@ return failure();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  success,required TResult Function()  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( LoginResponseEntity loginResponse)  success,required TResult Function( String message)  failure,required TResult Function( bool isFormValid)  validate,}) {final _that = this;
 switch (_that) {
 case Initial():
 return initial();case Loading():
 return loading();case Success():
-return success();case Failure():
-return failure();}
+return success(_that.loginResponse);case Failure():
+return failure(_that.message);case Validate():
+return validate(_that.isFormValid);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -423,13 +502,14 @@ return failure();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  success,TResult? Function()?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( LoginResponseEntity loginResponse)?  success,TResult? Function( String message)?  failure,TResult? Function( bool isFormValid)?  validate,}) {final _that = this;
 switch (_that) {
 case Initial() when initial != null:
 return initial();case Loading() when loading != null:
 return loading();case Success() when success != null:
-return success();case Failure() when failure != null:
-return failure();case _:
+return success(_that.loginResponse);case Failure() when failure != null:
+return failure(_that.message);case Validate() when validate != null:
+return validate(_that.isFormValid);case _:
   return null;
 
 }
@@ -505,64 +585,198 @@ String toString() {
 
 
 class Success implements AuthState {
-  const Success();
+  const Success({required this.loginResponse});
   
 
+ final  LoginResponseEntity loginResponse;
 
-
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SuccessCopyWith<Success> get copyWith => _$SuccessCopyWithImpl<Success>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Success);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Success&&(identical(other.loginResponse, loginResponse) || other.loginResponse == loginResponse));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,loginResponse);
 
 @override
 String toString() {
-  return 'AuthState.success()';
+  return 'AuthState.success(loginResponse: $loginResponse)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class $SuccessCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory $SuccessCopyWith(Success value, $Res Function(Success) _then) = _$SuccessCopyWithImpl;
+@useResult
+$Res call({
+ LoginResponseEntity loginResponse
+});
 
 
+
+
+}
+/// @nodoc
+class _$SuccessCopyWithImpl<$Res>
+    implements $SuccessCopyWith<$Res> {
+  _$SuccessCopyWithImpl(this._self, this._then);
+
+  final Success _self;
+  final $Res Function(Success) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? loginResponse = null,}) {
+  return _then(Success(
+loginResponse: null == loginResponse ? _self.loginResponse : loginResponse // ignore: cast_nullable_to_non_nullable
+as LoginResponseEntity,
+  ));
+}
+
+
+}
 
 /// @nodoc
 
 
 class Failure implements AuthState {
-  const Failure();
+  const Failure({required this.message});
   
 
+ final  String message;
 
-
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FailureCopyWith<Failure> get copyWith => _$FailureCopyWithImpl<Failure>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Failure);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Failure&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,message);
 
 @override
 String toString() {
-  return 'AuthState.failure()';
+  return 'AuthState.failure(message: $message)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class $FailureCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory $FailureCopyWith(Failure value, $Res Function(Failure) _then) = _$FailureCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
 
 
+
+
+}
+/// @nodoc
+class _$FailureCopyWithImpl<$Res>
+    implements $FailureCopyWith<$Res> {
+  _$FailureCopyWithImpl(this._self, this._then);
+
+  final Failure _self;
+  final $Res Function(Failure) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(Failure(
+message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class Validate implements AuthState {
+  const Validate({required this.isFormValid});
+  
+
+ final  bool isFormValid;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ValidateCopyWith<Validate> get copyWith => _$ValidateCopyWithImpl<Validate>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Validate&&(identical(other.isFormValid, isFormValid) || other.isFormValid == isFormValid));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,isFormValid);
+
+@override
+String toString() {
+  return 'AuthState.validate(isFormValid: $isFormValid)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ValidateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory $ValidateCopyWith(Validate value, $Res Function(Validate) _then) = _$ValidateCopyWithImpl;
+@useResult
+$Res call({
+ bool isFormValid
+});
+
+
+
+
+}
+/// @nodoc
+class _$ValidateCopyWithImpl<$Res>
+    implements $ValidateCopyWith<$Res> {
+  _$ValidateCopyWithImpl(this._self, this._then);
+
+  final Validate _self;
+  final $Res Function(Validate) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? isFormValid = null,}) {
+  return _then(Validate(
+isFormValid: null == isFormValid ? _self.isFormValid : isFormValid // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
 
 // dart format on

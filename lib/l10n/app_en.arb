@@ -36,5 +36,6 @@
   "@darker": {
     "description": "Darker theme option (AMOLED)"
   },
-  "loginOrSignup": "Log in or sign up"
+  "loginOrSignup": "Log in or sign up",
+  "login": "Log in"
 }

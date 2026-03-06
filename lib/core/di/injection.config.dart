@@ -14,6 +14,13 @@ import 'package:clean/core/network/connectivity_service.dart' as _i431;
 import 'package:clean/core/network/dio_client.dart' as _i581;
 import 'package:clean/core/storage/hive_service.dart' as _i156;
 import 'package:clean/core/storage/secure_storage_service.dart' as _i107;
+import 'package:clean/features/auth/data/datasource/auth_remote_data_source.dart'
+    as _i116;
+import 'package:clean/features/auth/data/repository/auth_repository_impl.dart'
+    as _i62;
+import 'package:clean/features/auth/domain/repository/auth_repository.dart'
+    as _i558;
+import 'package:clean/features/auth/domain/usecase/login_usecase.dart' as _i854;
 import 'package:clean/features/auth/presentation/bloc/auth_bloc.dart' as _i1055;
 import 'package:dio/dio.dart' as _i361;
 import 'package:flutter/material.dart' as _i409;
@@ -36,7 +43,6 @@ extension GetItInjectableX on _i174.GetIt {
     final connectivityModule = _$ConnectivityModule();
     final networkModule = _$NetworkModule();
     final secureStorageModule = _$SecureStorageModule();
-    gh.factory<_i1055.AuthBloc>(() => _i1055.AuthBloc());
     await gh.singletonAsync<_i738.HiveInterface>(
       () => hiveModule.hive,
       preResolve: true,
@@ -50,6 +56,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(() => networkModule.dio);
     gh.lazySingleton<_i558.FlutterSecureStorage>(
       () => secureStorageModule.secureStorage,
+    );
+    gh.factory<_i116.AuthRemoteDataSource>(
+      () => _i116.AuthRemoteDataSource(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i339.NavigationService>(
       () =>
@@ -66,6 +75,18 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i156.HiveService>(
       () => _i156.HiveService(gh<_i738.HiveInterface>()),
+    );
+    gh.factory<_i558.AuthRepository>(
+      () => _i62.AuthRepositoryImpl(
+        gh<_i116.AuthRemoteDataSource>(),
+        gh<_i107.SecureStorageService>(),
+      ),
+    );
+    gh.factory<_i854.LoginUsecase>(
+      () => _i854.LoginUsecase(gh<_i558.AuthRepository>()),
+    );
+    gh.factory<_i1055.AuthBloc>(
+      () => _i1055.AuthBloc(loginUsecase: gh<_i854.LoginUsecase>()),
     );
     return this;
   }
