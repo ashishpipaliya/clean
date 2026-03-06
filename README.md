@@ -8,8 +8,8 @@ Details page - Pokedex api
 [Done] Session Handling Secure store
 Encryption
 DB handling Hive
-Theme Handling
-Multi-Language
+[Done] Theme Handling
+[Done] Multi-Language
 Online-offline handling
-clean architecture
+[Done] clean architecture
 state-management riverpod hooks

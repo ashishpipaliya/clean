@@ -31,7 +31,7 @@ class AppBottomSheet {
         height: useContentHeight ? null : height,
         child: Padding(
           padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
+            bottom: MediaQuery.of(context).viewInsets.bottom + MediaQuery.of(context).padding.bottom,
           ),
           child: Column(
             mainAxisSize: useContentHeight ? MainAxisSize.min : MainAxisSize.max,

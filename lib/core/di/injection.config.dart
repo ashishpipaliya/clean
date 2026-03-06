@@ -22,6 +22,8 @@ import 'package:clean/features/auth/domain/repository/auth_repository.dart'
     as _i558;
 import 'package:clean/features/auth/domain/usecase/login_usecase.dart' as _i854;
 import 'package:clean/features/auth/presentation/bloc/auth_bloc.dart' as _i1055;
+import 'package:clean/features/settings/presentation/bloc/settings_bloc.dart'
+    as _i44;
 import 'package:dio/dio.dart' as _i361;
 import 'package:flutter/material.dart' as _i409;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
@@ -84,6 +86,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i854.LoginUsecase>(
       () => _i854.LoginUsecase(gh<_i558.AuthRepository>()),
+    );
+    gh.singleton<_i44.SettingsBloc>(
+      () => _i44.SettingsBloc(gh<_i107.SecureStorageService>()),
     );
     gh.factory<_i1055.AuthBloc>(
       () => _i1055.AuthBloc(loginUsecase: gh<_i854.LoginUsecase>()),

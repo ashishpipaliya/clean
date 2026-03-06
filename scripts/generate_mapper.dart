@@ -1,4 +1,6 @@
 // scripts/generate_mapper.dart
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
