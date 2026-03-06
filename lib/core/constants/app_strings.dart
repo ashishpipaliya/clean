@@ -1,5 +1,5 @@
 class AppStrings {
   AppStrings._();
 
-  static const String pokemonKeyPrefix = 'pokemon_';
+  static const String appName = 'Clean';
 }

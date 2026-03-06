@@ -1,13 +1,12 @@
+import 'package:clean/core/di/injection.dart';
+import 'package:clean/core/navigation/navigation_service.dart';
 import 'package:clean/core/widgets/app_empty_state.dart';
 import 'package:clean/features/auth/domain/repository/auth_repository.dart';
 import 'package:clean/features/auth/presentation/view/login_page.dart';
 import 'package:clean/features/dashboard/presentation/view/dashboard_page.dart';
+import 'package:clean/features/splash/presentation/view/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../features/showcase/presentation/view/widgets_showcase_page.dart';
-import '../../features/splash/presentation/pages/splash_page.dart';
-import '../di/injection.dart';
-import '../navigation/navigation_service.dart';
 
 final appRouter = GoRouter(
   navigatorKey: getIt<NavigationService>().navigatorKey,
@@ -46,11 +45,6 @@ final appRouter = GoRouter(
       path: DashboardPage.routeName,
       name: DashboardPage.routeName,
       builder: (context, state) => const DashboardPage(),
-    ),
-    GoRoute(
-      path: WidgetsShowcasePage.routeName,
-      name: WidgetsShowcasePage.routeName,
-      builder: (context, state) => const WidgetsShowcasePage(),
     ),
   ],
   errorBuilder: (context, state) => Scaffold(
