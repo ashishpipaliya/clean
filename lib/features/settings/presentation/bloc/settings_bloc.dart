@@ -23,15 +23,26 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<_ChangeLocale>(_onChangeLocale);
     on<_Logout>(_onLogout);
 
-    // Load settings on initialization
+    // Load settings on initialization (non-blocking)
     add(const SettingsEvent.loadSettings());
   }
 
   Future<void> _onLoadSettings(_LoadSettings event, Emitter<SettingsState> emit) async {
-    final themeModeIndex = await _secureStorage.read(_themeModeKey);
-    final localeCode = await _secureStorage.read(_localeKey);
+    try {
+      final themeModeIndex = await _secureStorage.read(_themeModeKey);
+      final localeCode = await _secureStorage.read(_localeKey);
 
-    emit(state.copyWith(themeMode: ThemeMode.values[int.tryParse(themeModeIndex ?? '0') ?? 0], locale: Locale(localeCode ?? 'en')));
+      emit(state.copyWith(
+        themeMode: ThemeMode.values[int.tryParse(themeModeIndex ?? '0') ?? 0],
+        locale: Locale(localeCode ?? 'en'),
+      ));
+    } catch (e) {
+      // If secure storage fails, use defaults
+      emit(state.copyWith(
+        themeMode: ThemeMode.system,
+        locale: const Locale('en'),
+      ));
+    }
   }
 
   Future<void> _onChangeTheme(_ChangeTheme event, Emitter<SettingsState> emit) async {

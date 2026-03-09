@@ -1,11 +1,47 @@
+import 'package:clean/core/di/injection.dart';
+import 'package:clean/features/auth/domain/repository/auth_repository.dart';
+import 'package:clean/features/auth/presentation/view/login_page.dart';
+import 'package:clean/features/dashboard/presentation/view/dashboard_page.dart';
 import 'package:clean/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   static const routeName = '/';
 
   const SplashPage({super.key});
+
+  @override
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToNextScreen();
+  }
+
+  Future<void> _navigateToNextScreen() async {
+    // Wait for animations to complete
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+
+    // Check authentication status
+    final authRepository = getIt<AuthRepository>();
+    final isAuthenticated = await authRepository.isAuthenticated();
+
+    if (!mounted) return;
+
+    // Navigate based on auth status
+    if (isAuthenticated) {
+      context.go(DashboardPage.routeName);
+    } else {
+      context.go(LoginPage.routeName);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

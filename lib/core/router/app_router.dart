@@ -12,19 +12,20 @@ final appRouter = GoRouter(
   navigatorKey: getIt<NavigationService>().navigatorKey,
   initialLocation: SplashPage.routeName,
   redirect: (context, state) async {
+    final isOnSplash = state.matchedLocation == SplashPage.routeName;
+    
+    // Allow splash screen to handle its own navigation
+    if (isOnSplash) {
+      return null;
+    }
+    
+    // For other routes, check authentication
     final authRepository = getIt<AuthRepository>();
     final isAuthenticated = await authRepository.isAuthenticated();
-    
-    final isOnSplash = state.matchedLocation == SplashPage.routeName;
     final isOnLogin = state.matchedLocation == LoginPage.routeName;
 
-    // If authenticated and trying to access login/splash, redirect to dashboard
-    if (isAuthenticated && (isOnLogin || isOnSplash)) {
-      return DashboardPage.routeName;
-    }
-
     // If not authenticated and trying to access protected routes, redirect to login
-    if (!isAuthenticated && !isOnLogin && !isOnSplash) {
+    if (!isAuthenticated && !isOnLogin) {
       return LoginPage.routeName;
     }
 

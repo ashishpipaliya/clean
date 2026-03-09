@@ -6,7 +6,7 @@ abstract class SecureStorageModule {
   @lazySingleton
   FlutterSecureStorage get secureStorage => const FlutterSecureStorage(
         aOptions: AndroidOptions(
-          keyCipherAlgorithm: KeyCipherAlgorithm.RSA_ECB_PKCS1Padding,
+          encryptedSharedPreferences: true,
         ),
       );
 }
