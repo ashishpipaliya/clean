@@ -3,7 +3,7 @@ import 'package:clean/features/auth/domain/entity/login_response_entity.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, LoginResponseEntity>> login({required String username, required String password, int? expiresInMins = 30});
+  Future<Either<Failure, LoginResponseEntity>> login({required String username, required String password, int expiresInMins = 30});
 
   /// Check if user is authenticated
   Future<bool> isAuthenticated();

@@ -18,8 +18,48 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    
+    switch (state) {
+      case AppLifecycleState.detached:
+        // All views have been detached from the application, and the application is about to exit.
+        print('🔴 App Lifecycle: DETACHED');
+      case AppLifecycleState.resumed:
+        // The application is visible and responding to user input.
+        print('🟢 App Lifecycle: RESUMED');
+      case AppLifecycleState.inactive:
+        // The application is in an inactive state and is not receiving user input.
+        print('🟡 App Lifecycle: INACTIVE');
+      case AppLifecycleState.paused:
+        // The application is not currently visible to the user, not responding to user input, and running in the background.
+        print('🟠 App Lifecycle: PAUSED');
+      case AppLifecycleState.hidden:
+        // The application is still hosted on a flutter engine but is detached from any host views.
+        print('⚫ App Lifecycle: HIDDEN');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

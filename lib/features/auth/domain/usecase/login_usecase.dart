@@ -10,7 +10,7 @@ class LoginUsecase {
 
   LoginUsecase(this.authRepository);
 
-  Future<Either<Failure, LoginResponseEntity>> call({required String username, required String password, int? expiresInMins}){
+  Future<Either<Failure, LoginResponseEntity>> call({required String username, required String password, int expiresInMins = 30}){
     return authRepository.login(username: username, password: password, expiresInMins: expiresInMins);
   }
 }
