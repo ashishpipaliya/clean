@@ -3,6 +3,19 @@ import 'package:flutter/material.dart';
 class AppSnackbar {
   AppSnackbar._();
 
+  /// Show a snackbar using a [GlobalKey<NavigatorState>].
+  /// Use this when no [BuildContext] is available (e.g. services, interceptors).
+  static void showFromKey(
+    GlobalKey<NavigatorState> key,
+    String message, {
+    SnackbarType? type,
+    Duration? duration,
+  }) {
+    final context = key.currentContext;
+    if (context == null) return;
+    show(context, message, type: type, duration: duration);
+  }
+
   /// Show a snackbar with optional type
   static void show(
     BuildContext context,

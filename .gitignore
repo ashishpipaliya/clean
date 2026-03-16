@@ -46,3 +46,6 @@ app.*.map.json
 
 # Environment variables
 .env
+
+# Generated env file — contains obfuscated secrets, never commit
+lib/config/env.g.dart

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clean/core/constants/ui_constants.dart';
 import 'package:clean/core/di/injection.dart';
 import 'package:clean/core/ui/app_dialog.dart';
@@ -31,30 +32,55 @@ class _HomePageState extends State<HomePage> {
   Future<void> _fetchPage(int offset) async {
     final result = await _getHomeListUsecase(limit: _pageSize, offset: offset);
 
+    if (!mounted) return;
+
     result.fold(
       (failure) {
         _pagingController.error = failure;
-        if (mounted) {
-          final l10n = AppLocalizations.of(context)!;
-          AppSnackbar.show(context, l10n.failedToLoad);
-        }
+        final l10n = AppLocalizations.of(context)!;
+        AppSnackbar.show(context, l10n.failedToLoad);
       },
       (pokemonListEntity) {
         final isLastPage = pokemonListEntity.next == null;
         if (isLastPage) {
           _pagingController.appendLastPage(pokemonListEntity.results);
         } else {
-          final nextOffset = offset + _pageSize;
-          _pagingController.appendPage(pokemonListEntity.results, nextOffset);
+          _pagingController.appendPage(pokemonListEntity.results, offset + _pageSize);
         }
       },
     );
   }
 
+  Future<void> _onClearCache() async {
+    final l10n = AppLocalizations.of(context)!;
+
+    final confirmed = await AppDialog.show<bool>(
+      context,
+      title: l10n.clearCacheTitle,
+      content: Text(l10n.clearCacheMessage),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: Text(l10n.cancel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: Text(l10n.clear),
+        ),
+      ],
+    );
+
+    if (confirmed == true && mounted) {
+      await getIt<GetHomeListUsecase>().clearCache();
+      _pagingController.refresh();
+      if (mounted) AppSnackbar.show(context, l10n.cacheCleared);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.pokemon),
@@ -62,31 +88,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.delete_outline),
             tooltip: l10n.clearCache,
-            onPressed: () async {
-              final confirmed = await AppDialog.show<bool>(
-                context,
-                title: l10n.clearCacheTitle,
-                content: Text(l10n.clearCacheMessage),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, false),
-                    child: Text(l10n.cancel),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, true),
-                    child: Text(l10n.clear),
-                  ),
-                ],
-              );
-
-              if (confirmed == true && mounted) {
-                await getIt<GetHomeListUsecase>().clearCache();
-                _pagingController.refresh();
-                if (mounted) {
-                  AppSnackbar.show(context, l10n.cacheCleared);
-                }
-              }
-            },
+            onPressed: _onClearCache,
           ),
         ],
       ),
@@ -101,56 +103,46 @@ class _HomePageState extends State<HomePage> {
               margin: const EdgeInsets.only(bottom: 12),
               child: ListTile(
                 leading: CircleAvatar(
-                  child: Text('#${pokemon.id}'),
+                  backgroundImage: CachedNetworkImageProvider(
+                    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png',
+                  ),
                 ),
                 title: Text(
                   pokemon.name.toUpperCase(),
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PokemonDetailPage(pokemonId: pokemon.id),
-                    ),
-                  );
-                },
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => PokemonDetailPage(pokemonId: pokemon.id),
+                  ),
+                ),
               ),
             ),
-            firstPageErrorIndicatorBuilder: (context) {
-              final l10n = AppLocalizations.of(context)!;
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.error_outline, size: 48),
-                    const SizedBox(height: 16),
-                    Text(l10n.failedToLoad),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () => _pagingController.refresh(),
-                      child: Text(l10n.retry),
-                    ),
-                  ],
-                ),
-              );
-            },
-            newPageErrorIndicatorBuilder: (context) {
-              final l10n = AppLocalizations.of(context)!;
-              return Center(
-                child: TextButton(
-                  onPressed: () => _pagingController.retryLastFailedRequest(),
-                  child: Text(l10n.retry),
-                ),
-              );
-            },
-            noItemsFoundIndicatorBuilder: (context) {
-              final l10n = AppLocalizations.of(context)!;
-              return Center(
-                child: Text(l10n.noPokemonFound),
-              );
-            },
+            firstPageErrorIndicatorBuilder: (context) => Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 48),
+                  const SizedBox(height: 16),
+                  Text(l10n.failedToLoad),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => _pagingController.refresh(),
+                    child: Text(l10n.retry),
+                  ),
+                ],
+              ),
+            ),
+            newPageErrorIndicatorBuilder: (context) => Center(
+              child: TextButton(
+                onPressed: () => _pagingController.retryLastFailedRequest(),
+                child: Text(l10n.retry),
+              ),
+            ),
+            noItemsFoundIndicatorBuilder: (context) =>
+                Center(child: Text(l10n.noPokemonFound)),
           ),
         ),
       ),

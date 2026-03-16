@@ -26,6 +26,29 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
+	<!-- Custom URL scheme: clean://app/... -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>space.ashiish.clean</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>clean</string>
+			</array>
+		</dict>
+	</array>
+
+	<!-- Universal links: https://clean.ashiish.space/...
+	     Requires an apple-app-site-association file hosted at that domain. -->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:clean.ashiish.space</string>
+	</array>
+
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

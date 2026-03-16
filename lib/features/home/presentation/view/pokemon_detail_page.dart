@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clean/core/constants/ui_constants.dart';
 import 'package:clean/core/di/injection.dart';
 import 'package:clean/core/widgets/app_empty_state.dart';
@@ -46,38 +47,17 @@ class _PokemonDetailView extends StatelessWidget {
                     child: Column(
                       children: [
                         if (pokemon.imageUrl.isNotEmpty)
-                          Image.network(
-                            pokemon.imageUrl,
+                          CachedNetworkImage(
+                            imageUrl: pokemon.imageUrl,
                             height: 200,
                             width: 200,
-                            cacheHeight: 200,
-                            cacheWidth: 200,
-                            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                              if (wasSynchronouslyLoaded) return child;
-                              return AnimatedOpacity(
-                                opacity: frame == null ? 0 : 1,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeOut,
-                                child: child,
-                              );
-                            },
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return SizedBox(
-                                height: 200,
-                                width: 200,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                ),
-                              );
-                            },
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.image_not_supported, size: 100);
-                            },
+                            placeholder: (context, url) => const SizedBox(
+                              height: 200,
+                              width: 200,
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.image_not_supported, size: 100),
                           )
                         else
                           const Icon(Icons.image_not_supported, size: 100),

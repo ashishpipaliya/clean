@@ -1,0 +1,121 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch   # 1.0.0 → 1.0.1
+          - minor   # 1.0.0 → 1.1.0
+          - major   # 1.0.0 → 2.0.0
+
+# Uncomment to also trigger on tag push:
+# on:
+#   push:
+#     tags:
+#       - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build APK & Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # needed to read all tags for version bumping
+
+      - name: Compute next version
+        id: version
+        run: |
+          # Get the latest semver tag, default to v0.0.0 if none exists
+          LATEST=$(git tag --list 'v*.*.*' --sort=-version:refname | head -n1)
+          LATEST=${LATEST:-v0.0.0}
+          echo "Latest tag: $LATEST"
+
+          # Strip leading 'v'
+          VERSION=${LATEST#v}
+          MAJOR=$(echo "$VERSION" | cut -d. -f1)
+          MINOR=$(echo "$VERSION" | cut -d. -f2)
+          PATCH=$(echo "$VERSION" | cut -d. -f3)
+
+          case "${{ github.event.inputs.version_type }}" in
+            major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+            patch) PATCH=$((PATCH + 1)) ;;
+          esac
+
+          NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+          # Build number = total commit count for reproducibility
+          BUILD_NUMBER=$(git rev-list --count HEAD)
+
+          echo "new_tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
+          echo "build_number=$BUILD_NUMBER" >> "$GITHUB_OUTPUT"
+          echo "Next version: $NEW_TAG ($BUILD_NUMBER)"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.2'
+          channel: stable
+          cache: true
+
+      - name: Create .env file
+        run: echo "ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }}" > .env
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run code generation
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+
+      - name: Bump version in pubspec.yaml
+        run: |
+          VERSION=${{ steps.version.outputs.new_tag }}
+          BUILD=${{ steps.version.outputs.build_number }}
+          # Strip leading 'v' for pubspec
+          SEMVER=${VERSION#v}
+          sed -i "s/^version: .*/version: ${SEMVER}+${BUILD}/" pubspec.yaml
+          echo "pubspec version set to ${SEMVER}+${BUILD}"
+
+      - name: Build release APK
+        run: flutter build apk --release --split-per-abi --build-name=${{ steps.version.outputs.new_tag }} --build-number=${{ steps.version.outputs.build_number }}
+
+      - name: Build release App Bundle
+        run: flutter build appbundle --release --build-name=${{ steps.version.outputs.new_tag }} --build-number=${{ steps.version.outputs.build_number }}
+
+      - name: Create and push tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag ${{ steps.version.outputs.new_tag }}
+          git push origin ${{ steps.version.outputs.new_tag }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release ${{ steps.version.outputs.new_tag }}
+          tag_name: ${{ steps.version.outputs.new_tag }}
+          generate_release_notes: true
+          files: |
+            build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+            build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+            build/app/outputs/flutter-apk/app-x86_64-release.apk
+            build/app/outputs/bundle/release/app-release.aab
