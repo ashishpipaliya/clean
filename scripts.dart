@@ -20,6 +20,9 @@ const _entries = [
   ('format', 'dart format lib/ test/'),
   ('fix', 'dart fix --apply'),
   ('l10n', 'flutter gen-l10n'),
+  ('splash', 'generate native splash screen'),
+  ('icons', 'generate launcher icons'),
+  ('assets', 'generate splash + icons together'),
   ('build-apk', 'release APK split per ABI'),
   ('build-aab', 'release App Bundle'),
   ('build-ios', 'iOS release no codesign'),
@@ -135,6 +138,13 @@ Future<void> _run(String cmd, List<String> args) async {
       await _exec('dart', ['fix', '--apply']);
     case 'l10n':
       await _exec('flutter', ['gen-l10n']);
+    case 'splash':
+      await _exec('dart', ['run', 'flutter_native_splash:create']);
+    case 'icons':
+      await _exec('dart', ['run', 'flutter_launcher_icons']);
+    case 'assets':
+      await _exec('dart', ['run', 'flutter_native_splash:create']);
+      await _exec('dart', ['run', 'flutter_launcher_icons']);
     case 'build-apk':
       await _exec('flutter', ['build', 'apk', '--release', '--split-per-abi']);
     case 'build-aab':

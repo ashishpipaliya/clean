@@ -1,6 +1,7 @@
 import 'package:clean/core/monitoring/app_bloc_observer.dart';
 import 'package:clean/core/monitoring/crash_reporting_service.dart';
 import 'package:clean/core/utils/app_logger.dart';
+import 'package:clean/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:clean/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +16,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
 
-  // Crash reporting (mock until Firebase/Sentry is wired up).
   await getIt<CrashReportingService>().initialize();
-
-  // Global BLoC observer for logging and crash reporting.
   Bloc.observer = AppBlocObserver(getIt<AppLogger>(), getIt<CrashReportingService>());
-
-  // Start connectivity monitoring.
   getIt<ConnectivityService>().startMonitoring();
+
+  // Fire initialize and wait for AuthBloc to resolve auth state from storage
+  // BEFORE runApp. This runs while the native splash is still showing,
+  // so the router's first redirect is already synchronous — no login flash.
+  final authBloc = getIt<AuthBloc>()..add(const AuthEvent.initialize());
+  await authBloc.stream.firstWhere(
+    (s) => s.whenOrNull(unknown: () => true) == null,
+  );
 
   runApp(const MyApp());
 }
@@ -57,8 +61,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<SettingsBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: getIt<AuthBloc>()),
+        BlocProvider(create: (_) => getIt<SettingsBloc>()),
+      ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           return MaterialApp.router(

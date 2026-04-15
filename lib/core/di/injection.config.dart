@@ -173,14 +173,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i854.LoginUsecase>(
       () => _i854.LoginUsecase(gh<_i558.AuthRepository>()),
     );
+    gh.singleton<_i1055.AuthBloc>(
+      () => _i1055.AuthBloc(
+        loginUsecase: gh<_i854.LoginUsecase>(),
+        repository: gh<_i558.AuthRepository>(),
+      ),
+    );
     gh.factory<_i79.LogoutUsecase>(
       () => _i79.LogoutUsecase(gh<_i558.AuthRepository>()),
     );
     gh.factory<_i273.HomeBloc>(
       () => _i273.HomeBloc(gh<_i891.GetHomeListUsecase>()),
-    );
-    gh.factory<_i1055.AuthBloc>(
-      () => _i1055.AuthBloc(loginUsecase: gh<_i854.LoginUsecase>()),
     );
     gh.singleton<_i44.SettingsBloc>(
       () => _i44.SettingsBloc(

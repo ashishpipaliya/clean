@@ -5,11 +5,9 @@ import 'package:clean/core/validation/validators.dart';
 import 'package:clean/core/widgets/app_button.dart';
 import 'package:clean/core/widgets/app_text_field.dart';
 import 'package:clean/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:clean/features/dashboard/presentation/view/dashboard_page.dart';
 import 'package:clean/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatelessWidget {
   static const String routeName = "/login";
@@ -17,7 +15,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => getIt<AuthBloc>(), child: LoginScreen());
+    return BlocProvider.value(value: getIt<AuthBloc>(), child: LoginScreen());
   }
 }
 
@@ -58,16 +56,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 BlocListener<AuthBloc, AuthState>(
                   listener: (context, state) {
                     state.whenOrNull(
-                      success: (loginResponse) {
+                      loginSuccess: (loginResponse) {
                         AppSnackbar.show(
                           context,
                           'Welcome back, ${loginResponse.firstName ?? loginResponse.username}!',
                           type: SnackbarType.success,
                         );
-                        // Navigate to dashboard and clear navigation stack
-                        context.go(DashboardPage.routeName);
+                        context.read<AuthBloc>().add(const AuthEvent.loggedIn());
                       },
-                      failure: (message) {
+                      loginFailure: (message) {
                         AppSnackbar.show(
                           context,
                           message,
@@ -116,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         label: l10n.login,
                         borderRadius: BorderRadius.circular(5),
                         isDisabled: !isValidForm,
-                        isLoading: state is Loading,
+                        isLoading: state.maybeWhen(orElse: () => false, loading: () => true),
                         onPressed: _handleLogin,
                       );
                     },

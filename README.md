@@ -46,6 +46,6 @@ Clean architecture with three layers:
 ## Setup
 
 1. Install dependencies: `flutter pub get`
-2. Generate code: `dart run build_runner build --delete-conflicting-outputs`
+2. Generate code: `dart run build_runner build -d`
 3. Add `.env` file with `ENCRYPTION_KEY` value
 4. Run: `flutter run`

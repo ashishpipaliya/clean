@@ -2,12 +2,22 @@ part of 'auth_bloc.dart';
 
 @freezed
 sealed class AuthState with _$AuthState {
-  const factory AuthState.initial() = Initial;
-  const factory AuthState.loading() = Loading;
-  const factory AuthState.success({required LoginResponseEntity loginResponse}) = Success;
-  const factory AuthState.failure({required String message}) = Failure;
-  const factory AuthState.loggedOut() = LoggedOut;
+  // ── Session states (router listens to these) ───────────────────────────────
+  /// Initial state before storage has been read.
+  const factory AuthState.unknown() = _Unknown;
 
-  /// Login form validation state
-  const factory AuthState.validate({required bool isFormValid}) = Validate;
+  const factory AuthState.authenticated() = _Authenticated;
+
+  const factory AuthState.unauthenticated() = _Unauthenticated;
+
+  // ── Login form states ──────────────────────────────────────────────────────
+  const factory AuthState.loading() = _Loading;
+
+  const factory AuthState.loginSuccess({
+    required LoginResponseEntity loginResponse,
+  }) = _LoginSuccess;
+
+  const factory AuthState.loginFailure({required String message}) = _LoginFailure;
+
+  const factory AuthState.validate({required bool isFormValid}) = _FormValidate;
 }
